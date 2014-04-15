@@ -2,9 +2,10 @@
 <html>
   <head>
     <title>Hello React</title>
+    <meta charset="utf-8">
     <script src="bower_components/react/react.js"></script>
     <script src="bower_components/react/JSXTransformer.js"></script>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/showdown/compressed/showdown.js"></script>
   </head>
   <body>
@@ -14,14 +15,15 @@
        * @jsx React.DOM
        */
        
-      // properties that are used by react due to their name
-      // are commented 'react method'. 'render' is always react.
-       
       
-      // Markdown Comment Content
+      // Markdown Converter
       var converter = new Showdown.converter();
       
-      // component: single comment
+      // ## React components
+       
+      // ### comment
+      // 
+      // a single **comment**, with 'author' and 'content'.
       var Comment = React.createClass({
         render: function() {
           var rawMarkup = converter.makeHtml(this.props.children.toString());

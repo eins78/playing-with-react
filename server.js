@@ -106,7 +106,7 @@ var log = function () {
 },
 debug = function () {
   if (config.debug) {
-    log(arguments[0])
+    log(arguments[0]);
     log(''); // linebreak
   }
 };
