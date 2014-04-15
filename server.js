@@ -1,38 +1,88 @@
-var fs = require('fs'),
-    http = require('http');
+var config = {
+  "port": 1337,
+  "log": true,
+  "debug": true
+};
+
+var http = require('http'),
+    url = require('url'),
+    querystring = require('querystring');
+
+
+// db module
+var db = {
+  fs: require('fs'),
+  READ: function (path, callback) {
+    this.fs.readFile('.'+path, { encoding:"utf8" }, function (err, data) {
+      callback(null || err, data.length ? data.toString() : null);
+    });
+  },
+  WRITE: function (path, data, callback) {
+    this.fs.writeFile('.'+path, data, function (err) {
+      callback(err || null);
+    });
+  },
+  UPDATE: function (path, data, callback) {
+    var db = this;
+    db.READ(path, function (FsError, string) {
+      
+      if (FsError) { return callback(new Error("fs: "+FsError)); }
+      
+      try { 
+        var list = JSON.parse(string); 
+        list.push(data);
+        
+        list = list.length ? JSON.stringify(list, null, 2) : [];
+        
+        db.WRITE(path, list, callback);
+      }
+      catch (JSONerror) {
+        callback(new Error("JSON: "+JSONerror));
+      } 
+    });
+  }
+};
 
 var server = http.createServer(function (req, res) {
-  console.log(req.method, req.url, new Date().getTime());
   
+  var time = new Date().getTime().toString().slice(-5);
+  var pathname = url.parse(req.url).pathname;
+  var file = (pathname === "/") ? '/index.html' : pathname;
+  
+  console.log(time, req.method, req.url);
+    
   // serve Files
   if (req.method === "GET") {
-    var file = (req.url === "/") ? '/index.html' : req.url;
 
-    fs.readFile('.'+file, {encoding:"utf8"}, function (err, data) {
+    db.READ(file, function (err, string) {
       if (err) {
         res.writeHead(404);
-        return res.end("Not found! " + err, "utf8");
+        return res.end("Not found! " + err + time, "utf8");
       }
-      // console.log(data.toString());
-      return res.end(data.toString(), "utf8");
+      return res.end(string, "utf8");
     });
   }
   
   // "API" ;)
   else if (req.method === "POST") {
-    
+
     var body = "";
-    request.on('data', function (data) {
+    req.on('data', function (data) {
       body += data;
     });
     
-    request.on('end', function () {
+    req.on('end', function () {
       
-      fs.writeFile('.'+req.url, 'Hello Node', function (err) {
+      var data = querystring.parse(body);
+      debug(data);
+      
+      db.UPDATE(file, data, function (err) {
         if (err) {
+          log(err);
           res.writeHead(500);
         }
-        return res.end();
+        res.writeHead(201);
+        return res.end(time);
       });
       
     });
@@ -42,8 +92,21 @@ var server = http.createServer(function (req, res) {
   else {
     // if we reach this, we don't know what to do
     res.writeHead(500);
-    return res.end("FAIL");    
+    return res.end("FAIL");
   }
   
 }).listen(1337);
 
+
+// logger
+var log = function () {
+  if (config.log) {
+    console.log.call(null, arguments[0]);
+  }
+},
+debug = function () {
+  if (config.debug) {
+    log(arguments[0])
+    log(''); // linebreak
+  }
+};
