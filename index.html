@@ -14,10 +14,14 @@
        * @jsx React.DOM
        */
        
+      // properties that are used by react due to their name
+      // are commented 'react method'. 'render' is always react.
+       
       
       // Markdown Comment Content
       var converter = new Showdown.converter();
-
+      
+      // component: single comment
       var Comment = React.createClass({
         render: function() {
           var rawMarkup = converter.makeHtml(this.props.children.toString());
@@ -32,6 +36,7 @@
         }
       });
 
+      // component: list of comment
       var CommentList = React.createClass({
         render: function() {
           var commentNodes = this.props.data.map(function (comment) {
@@ -44,17 +49,41 @@
           );
         }
       });
-
+      
+      // component: form for new comment
       var CommentForm = React.createClass({
+        // custom submit handler
+        handleSubmit: function () {
+          // get values from form
+          var author = this.refs.author.getDOMNode().value.trim();
+          var text = this.refs.text.getDOMNode().value.trim();
+          // "validation"
+          if (!text || !author) {
+            return false
+          }
+          
+          // call our configured handler fn with the data
+          this.props.onCommentSubmit({author:author,text:text});
+          
+          // reset the form state
+          this.refs.author.getDOMNode().value = '';
+          this.refs.text.getDOMNode().value = '';
+          // prevent browser default action:
+          return false
+        },
         render: function() {
           return (
-            <div className="commentForm">
-              Hello, world! I am a CommentForm.
-            </div>
+            <form className="commentForm" onSubmit={this.handleSubmit}>
+              {/*                                  ref: data binding! */}
+              <input type="text" placeholder="Your name" ref="author"/>
+              <input type="text" placeholder="Your Comment here…" ref="text"/>
+              <input type="submit" value="Post" />
+            </form>
           );
         }
       });
       
+      // meta-component: complete comment box
       var CommentBox = React.createClass({
         // custom fetch function
         loadCommentsFromServer: function() {
@@ -67,6 +96,18 @@
             }.bind(this),
             error: function(xhr, status, err) {
               console.error(this.props.url, status, err.toString());
+            }.bind(this)
+          });
+        },
+        // custom fn to add new comment
+        handleCommentSubmit: function (comment) {
+          $.ajax({
+            url: this.props.url,
+            dataType: 'json',
+            type: 'POST',
+            data: comment,
+            success: function(data) {
+              this.setState({data: data});
             }.bind(this)
           });
         },
@@ -85,7 +126,10 @@
             <div className="commentBox">
               <h1>Comments</h1>
               <CommentList data={this.state.data}/>
-              <CommentForm />
+              <CommentForm 
+                // set callback to handle submits as prop!
+                onCommentSubmit={this.handleCommentSubmit}
+              />
             </div>
           );
         }
