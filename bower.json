@@ -1,0 +1,21 @@
+{
+  "name": "thinking-in-react",
+  "version": "0.0.0",
+  "authors": [
+    "Max F. Albrecht <1@178.is>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "showdown": "~0.3.1",
+    "react": "~0.10.0"
+  }
+}
