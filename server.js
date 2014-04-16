@@ -68,11 +68,24 @@ var server = http.createServer(function (req, res) {
 
     var body = "";
     req.on('data', function (data) {
+      if (body.length > 1e6) { // not bigger than 1MB!
+        debug("ERROR: POST data to big! > "+time);
+        res.writeHead(413); res.end();
+        req.connection.destroy();
+        body = null;
+      }
       body += data;
     });
     
     req.on('end', function () {
       
+      if (!body) {
+        res.writeHead(400);
+        return res.end(time);
+        debug("ERROR: no POST data! > "+time);
+      }
+      
+      // normal form data is querystring-enocoded
       var data = querystring.parse(body);
       debug(data);
       
@@ -81,7 +94,7 @@ var server = http.createServer(function (req, res) {
           log(err);
           res.writeHead(500);
         }
-        res.writeHead(201);
+        res.writeHead(201); // semi-correct
         return res.end(time);
       });
       
@@ -91,7 +104,7 @@ var server = http.createServer(function (req, res) {
   
   else {
     // if we reach this, we don't know what to do
-    res.writeHead(500);
+    res.writeHead(501);
     return res.end("FAIL");
   }
   
