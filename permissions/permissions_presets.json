@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Betrachten",
+    "view": true,
+    "download": false,
+    "edit": false,
+    "manage": false
+  },
+  {
+    "name": "Betrachten & Original exportieren",
+    "view": true,
+    "download": true,
+    "edit": false,
+    "manage": false
+  },
+  {
+    "name": "Redakteur/in",
+    "view": true,
+    "download": true,
+    "edit": true,
+    "manage": false
+  },
+  {
+    "name": "Bevollmächtigte/r",
+    "view": true,
+    "download": true,
+    "edit": true,
+    "manage": true
+  }
+]

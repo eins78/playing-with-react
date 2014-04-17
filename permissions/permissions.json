@@ -1,0 +1,32 @@
+{
+  "applications": [
+  ],
+  "groups": [
+  ],
+  "public": {
+    "download": [
+    ],
+    "edit": [
+    ],
+    "view": [
+    ]
+  },
+  "users": [
+  ],
+  "you": {
+    "download": [
+      "58a4cc00-5072-4e5d-807f-1a46353455cd"
+    ],
+    "edit": [
+      "58a4cc00-5072-4e5d-807f-1a46353455cd"
+    ],
+    "id": "713b0d78-2267-4f5a-a809-fa2ef4b19771",
+    "manage": [
+      "58a4cc00-5072-4e5d-807f-1a46353455cd"
+    ],
+    "name": "Albrecht, Max",
+    "view": [
+      "58a4cc00-5072-4e5d-807f-1a46353455cd"
+    ]
+  }
+}
