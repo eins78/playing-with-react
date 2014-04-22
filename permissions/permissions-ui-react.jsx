@@ -277,15 +277,22 @@ var PermissionCheckBox = React.createClass({
 
 var Permissions = React.createClass({
   render: function () {
+    // some light data mangling: seperate "you" and "subjects"
+    var data = this.props.permissions
+    var permissions = {};
+    permissions.subjects = data;
+    permissions.currentUser = data.you;
+    delete permissions.subjects.you;
+    
     return (
         <form id="ui-rights-management"
               data-manageable={this.props.isManageable}
               data-media-resource-id={this.props.mediaResource}
               data-redirect-url= {this.props.redirectUrl}
         >
-          <PermissionsOverview/>
+          <PermissionsOverview permissions={permissions}/>
           <hr className="separator light mvl"/>
-          <PermissionsSettings/>
+          <PermissionsSettings permissions={permissions}/>
         </form>
     );
   }
@@ -339,6 +346,7 @@ var PERMISSIONS_JSON = {
 // > React.renderComponent(component, target)
 React.renderComponent(
   <Permissions
+    permissions={PERMISSIONS_JSON}
     isManageable={true}
     redirectUrl="/permissions/edit?_action=view&amp;media_resource_id=5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb" />,
   document.getElementById('ux-permissions')
