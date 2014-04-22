@@ -84,34 +84,28 @@ var UserPermissionsOverviewList = React.createClass({
 
 var PermissionsSettings = React.createClass({
   render: function () {
+    
+    // build list of subjectslists from data
+    var data = this.props.permissions;
+    var subjectsLists = [];
+    // TODO: ordering???
+    Object.keys(data.subjects).forEach(function (subject) {
+      subjectsLists.push(
+        <PermissionsSubjectsList
+          permissions={data.subjects[subject]}
+          name={subject}
+          title={subject[0].toUpperCase().concat(subject.slice(1))} // TODO: from preset
+          icon="icon-privacy-private-alt" />
+      );
+    });
+    
     return (
       <div>
         <h3 className="title-l mbs">
           Berechtigungen
         </h3>
         <div className="ui-rights-management">
-        
-          <PermissionsSubjectsList
-            name="users"
-            title="Personen"
-            icon="icon-privacy-private-alt" />
-            
-          <PermissionsSubjectsList
-            name="groups"
-            title="Gruppen"
-            icon="icon-privacy-group-alt" />
-            
-          <PermissionsSubjectsList
-            name="apiapps"
-            title="API-Applikationen"
-            icon="fa fa-flask" />
-            
-          <PermissionsSubjectsList
-            name="public" 
-            general={true}
-            title="Öffentlichkeit"
-            icon="icon-privacy-open" />
-          
+          {subjectsLists}
         </div>
       </div>
     );
