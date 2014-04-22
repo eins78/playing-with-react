@@ -91,22 +91,22 @@ var PermissionsSettings = React.createClass({
         </h3>
         <div className="ui-rights-management">
         
-          <PermissionsSubjectGroup
+          <PermissionsSubjectsList
             name="users"
             title="Personen"
             icon="icon-privacy-private-alt" />
             
-          <PermissionsSubjectGroup
+          <PermissionsSubjectsList
             name="groups"
             title="Gruppen"
             icon="icon-privacy-group-alt" />
             
-          <PermissionsSubjectGroup
+          <PermissionsSubjectsList
             name="apiapps"
             title="API-Applikationen"
             icon="fa fa-flask" />
             
-          <PermissionsSubjectGroup
+          <PermissionsSubjectsList
             name="public" 
             general={true}
             title="Öffentlichkeit"
@@ -118,7 +118,7 @@ var PermissionsSettings = React.createClass({
   }
 });
 
-var PermissionsSubjectGroup = React.createClass({
+var PermissionsSubjectsList = React.createClass({
   render: function () {
     return (
       <div className={"ui-rights-management-"+this.props.name}>
@@ -184,7 +184,7 @@ var PermissionsSubject = React.createClass({
           </span>
         </td>
         
-        <PermissionsPresetSelecter/>
+        <PermissionsPresetSelector/>
         
         <PermissionCheckBox
           userSelection={true}
@@ -212,7 +212,7 @@ var PermissionsSubject = React.createClass({
   }
 });
 
-var PermissionsPresetSelecter = React.createClass({
+var PermissionsPresetSelector = React.createClass({
   render: function () {
     return (
       <td className="ui-rights-role">
