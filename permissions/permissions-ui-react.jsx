@@ -8,7 +8,7 @@
 // TODO
 
 // ## Permissions: Overview
-
+// collection of specific overviews
 var PermissionsOverview = React.createClass({
   render: function () {
     return (
@@ -90,28 +90,44 @@ var PermissionsSettings = React.createClass({
           Berechtigungen
         </h3>
         <div className="ui-rights-management">
-          <PermissionsSubject name="users"/>
-          <PermissionsSubject name="groups"/>
-          <PermissionsSubject name="apiapps"/>
-          <PermissionsSubject name="public" 
-                              general={true}
-          />
+        
+          <PermissionsSubjectGroup
+            name="users"
+            title="Personen"
+            icon="icon-privacy-private-alt" />
+            
+          <PermissionsSubjectGroup
+            name="groups"
+            title="Gruppen"
+            icon="icon-privacy-group-alt" />
+            
+          <PermissionsSubjectGroup
+            name="apiapps"
+            title="API-Applikationen"
+            icon="fa fa-flask" />
+            
+          <PermissionsSubjectGroup
+            name="public" 
+            general={true}
+            title="Öffentlichkeit"
+            icon="icon-privacy-open" />
+          
         </div>
       </div>
     );
   }
 });
 
-var PermissionsSubject = React.createClass({
+var PermissionsSubjectGroup = React.createClass({
   render: function () {
     return (
-      <div className="ui-rights-management-users">
+      <div className={"ui-rights-management-"+this.props.name}>
         <div className="ui-rights-body">
           <table className="ui-rights-group">
             <thead>
               <tr>
                 <td className="ui-rights-user-title">
-                  Personen <i className="icon-privacy-private-alt"></i>
+                  {this.props.title} <i className={this.props.icon}></i>
                 </td>
                 <td className="ui-rights-role-title">Berechtigung</td>
                 <td className="ui-rights-check-title">Betrachten</td>
@@ -121,87 +137,15 @@ var PermissionsSubject = React.createClass({
               </tr>
             </thead>
             <tbody>
-              <tr data-id="08ba1f4f-0522-4a77-b087-4f3d1dd94532"
-                data-is-current-user-group=""
-                data-is-current-user="false"
-                data-name="Normalo, Normin"
-                data-type="userpermission"
-               >
-                <td className="ui-rights-user">
-                  <a className="button small ui-rights-remove"
-                    title="Berechtigung entfernen">
-                    <i className="icon-close small"></i>
-                  </a>
-                  <span className="text" title="Normalo, Normin ">
-                    <i className="current-user-icon icon-privacy-private"></i>
-                      Normalo, Normin
-                  </span>
-                </td>
-                <td className="ui-rights-role">
-                  <div className="small">
-                    <select className="ui-rights-role-select">
-                      <option data-preset="{&quot;name&quot;:&quot;Bevollmächtigte/r&quot;,&quot;view&quot;:true,&quot;download&quot;:true,&quot;edit&quot;:true,&quot;manage&quot;:true}" value="Bevollmächtigte/r">
-                        Bevollmächtigte/r
-                      </option>
-                      <option data-preset="{&quot;name&quot;:&quot;Betrachter/in&quot;,&quot;view&quot;:true,&quot;download&quot;:false,&quot;edit&quot;:false,&quot;manage&quot;:false}" value="Betrachter/in">
-                        Betrachter/in
-                      </option>
-                      <option data-preset="{&quot;name&quot;:&quot;Betrachter/in &amp; Original&quot;,&quot;view&quot;:true,&quot;download&quot;:true,&quot;edit&quot;:false,&quot;manage&quot;:false}" selected="selected" value="Betrachter/in &amp; Original">
-                        Betrachter/in &amp; Original
-                      </option>
-                      <option data-preset="{&quot;name&quot;:&quot;Gesperrt&quot;,&quot;view&quot;:false,&quot;download&quot;:false,&quot;edit&quot;:false,&quot;manage&quot;:false}" value="Gesperrt">
-                        Gesperrt
-                      </option>
-                      <option data-preset="{&quot;name&quot;:&quot;Redakteur/in&quot;,&quot;view&quot;:true,&quot;download&quot;:true,&quot;edit&quot;:true,&quot;manage&quot;:false}" value="Redakteur/in">
-                        Redakteur/in
-                      </option>
-                      <option data-mixed="" disabled="disabled">
-                        Gemischte Werte
-                      </option>
-                      <option data-custom="" disabled="disabled">
-                        Angepasste Werte
-                      </option>
-                    </select>
-                  </div>
-                </td>
-                <td className="ui-rights-check view">
-                  <i className="ui-right-overwritten-by-public" title="Betrachten (überschrieben durch die Öffentlichen Berechtigungen)">
-                     <i className="icon-privacy-open"></i>
-                  </i>
-                  <label className="ui-rights-check-label">
-                    <input checked="checked" name="view" title="Betrachten" value="true" type="checkbox"/>
-                  </label>
-                </td>
-                <td className="ui-rights-check download">
-                  <i className="ui-right-overwritten-by-public" title="Export original (überschrieben durch die Öffentlichen Berechtigungen)">
-                    <i className="icon-privacy-open"></i>
-                  </i>
-                  <label className="ui-rights-check-label">
-                    <input checked="checked" name="download" title="Export original" value="true" type="checkbox"/>
-                  </label>
-                </td>
-                <td className="ui-rights-check edit">
-                  <i className="ui-right-overwritten-by-public" title="Edit metadata (überschrieben durch die Öffentlichen Berechtigungen)">
-                    <i className="icon-privacy-open"></i>
-                  </i>
-                  <label className="ui-rights-check-label">
-                    <input name="edit" title="Edit metadata" value="true" type="checkbox"/>
-                  </label>
-                </td>
-                <td className="ui-rights-check manage">
-                  <i className="ui-right-overwritten-by-public" title="Manage permissions (überschrieben durch die Öffentlichen Berechtigungen)">
-                    <i className="icon-privacy-open"></i>
-                  </i>
-                  <label className="ui-rights-check-label">
-                    <input name="manage" title="Manage permissions" value="true" type="checkbox"/>
-                  </label>
-                </td>
-              </tr>
+              <PermissionsSubject
+                user="08ba1f4f"
+                name="Normalo, Normin"
+              />
             </tbody>
           </table>
-          <div className="ui-add-subject ptx row" id="addUser">
+          <div className="ui-add-subject ptx row" id="add{this.props.name.capitalize}">
             <div className="col1of3">
-              <input autocomplete="off" 
+              <input autoComplete="off" 
                      className="small block ui-autocomplete-input"
                      name="user" 
                      placeholder="Name der Person"
@@ -216,13 +160,129 @@ var PermissionsSubject = React.createClass({
   }
 });
 
+var PermissionsSubject = React.createClass({
+  render: function () {
+    var user = {
+      id: this.props.user,
+      name: this.props.name
+    }
+    return (
+      <tr data-id="08ba1f4f-0522-4a77-b087-4f3d1dd94532"
+        data-is-current-user-group=""
+        data-is-current-user="false"
+        data-name={user.name}
+        data-type="userpermission"
+       >
+        <td className="ui-rights-user">
+          <a className="button small ui-rights-remove"
+            title="Berechtigung entfernen">
+            <i className="icon-close small"></i>
+          </a>
+          <span className="text" title={user.name}>
+            <i className="current-user-icon icon-privacy-private"></i>
+              {user.name}
+          </span>
+        </td>
+        
+        <PermissionsPresetSelecter/>
+        
+        <PermissionCheckBox
+          userSelection={true}
+          name="view"
+          title="Betrachten"
+        />
+        <PermissionCheckBox
+          userSelection={true}
+          name="export"
+          title="Export original"
+        />
+        <PermissionCheckBox
+          userSelection={false}
+          name="edit"
+          title="Edit metadata"
+        />
+        <PermissionCheckBox
+          userSelection={false}
+          name="manage"
+          title="Manage permissions"
+        />
+        
+      </tr>
+    );
+  }
+});
+
+var PermissionsPresetSelecter = React.createClass({
+  render: function () {
+    return (
+      <td className="ui-rights-role">
+        <div className="small">
+          <select className="ui-rights-role-select"
+        defaultSelected="viewAndExport"
+          >
+            <option name="responsible" value="Bevollmächtigte/r">
+              Bevollmächtigte/r
+            </option>
+            <option name="viewer" value="Betrachter/in">
+              Betrachter/in
+            </option>
+            <option name="viewAndExport" value="Betrachter/in &amp; Original">
+              Betrachter/in &amp; Original
+            </option>
+            <option name="locked" value="Gesperrt">
+              Gesperrt
+            </option>
+            <option name="editor" value="Redakteur/in">
+              Redakteur/in
+            </option>
+            <option name="mixed" disabled="disabled">
+              Gemischte Werte
+            </option>
+            <option name="custo," disabled="disabled">
+              Angepasste Werte
+            </option>
+          </select>
+        </div>
+      </td>
+    );
+  }
+});
+
+var PermissionCheckBox = React.createClass({
+  render: function () {
+    var selection = this.props.userSelection;
+    var name = this.props.name;
+    var title = this.props.title;
+    return (
+      <td className="ui-rights-check view">
+        <i className="ui-right-overwritten-by-public" title="Betrachten (überschrieben durch die Öffentlichen Berechtigungen)">
+           <i className="icon-privacy-open"></i>
+        </i>
+        <label className="ui-rights-check-label">
+          <input 
+            defaultChecked={!!selection}
+            onChange={this.props.CheckBoxHandler} // TODO
+            name={name}
+            title={title}
+            value="true"
+            type="checkbox"
+          />
+        </label>
+      </td>
+    );
+  }
+});
+
+// ## Meta-Component: Permissions
+
 var Permissions = React.createClass({
   render: function () {
     return (
-        <form data-manageable=""
-              data-media-resource-id="5b8a97e9"
-              data-redirect-url="/permissions/edit?_action=view&amp;media_resource_id=5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb"
-              id="ui-rights-management">
+        <form id="ui-rights-management"
+              data-manageable={this.props.isManageable}
+              data-media-resource-id={this.props.mediaResource}
+              data-redirect-url= {this.props.redirectUrl}
+        >
           <PermissionsOverview/>
           <hr className="separator light mvl"/>
           <PermissionsSettings/>
@@ -237,6 +297,9 @@ var Permissions = React.createClass({
 // 
 // > React.renderComponent(component, target)
 React.renderComponent(
-  <Permissions/>,
+  <Permissions
+    mediaResource="5b8a97e9"
+    isManageable={true}
+    redirectUrl="/permissions/edit?_action=view&amp;media_resource_id=5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb" />,
   document.getElementById('ux-permissions')
 );
