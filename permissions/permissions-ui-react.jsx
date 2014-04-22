@@ -85,16 +85,16 @@ var UserPermissionsOverviewList = React.createClass({
 var PermissionsSettings = React.createClass({
   render: function () {
     
-    // build list of subjectslists from data
+    // build list of subjectGroups from data
     var data = this.props.permissions;
-    var subjectsLists = [];
+    var subjectGroups = [];
     // TODO: ordering???
-    Object.keys(data.subjects).forEach(function (subject) {
-      subjectsLists.push(
-        <PermissionsSubjectsList
-          permissions={data.subjects[subject]}
-          name={subject}
-          title={subject[0].toUpperCase().concat(subject.slice(1))} // TODO: from preset
+    Object.keys(data.subjectGroups).forEach(function (group) {
+      subjectGroups.push(
+        <PermissionsSubjectGroup
+          subjects={data.subjectGroups[group]}
+          name={group}
+          title={group[0].toUpperCase().concat(group.slice(1))} // TODO: from preset
           icon="icon-privacy-private-alt" />
       );
     });
@@ -105,14 +105,14 @@ var PermissionsSettings = React.createClass({
           Berechtigungen
         </h3>
         <div className="ui-rights-management">
-          {subjectsLists}
+          {subjectGroups}
         </div>
       </div>
     );
   }
 });
 
-var PermissionsSubjectsList = React.createClass({
+var PermissionsSubjectGroup = React.createClass({
   render: function () {
     return (
       <div className={"ui-rights-management-"+this.props.name}>
@@ -274,7 +274,7 @@ var Permissions = React.createClass({
     // some light data mangling: seperate "you" and "subjects"
     var data = this.props.permissions
     var permissions = {};
-    permissions.subjects = data;
+    permissions.subjectGroups = data;
     permissions.currentUser = data.you;
     delete permissions.subjects.you;
     
