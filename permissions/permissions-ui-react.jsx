@@ -290,19 +290,6 @@ var Permissions = React.createClass({
     );
   }
 });
- 
-// ## Render
-// 
-// renders the component and attaches it to the target
-// 
-// > React.renderComponent(component, target)
-React.renderComponent(
-  <Permissions
-    mediaResource="5b8a97e9"
-    isManageable={true}
-    redirectUrl="/permissions/edit?_action=view&amp;media_resource_id=5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb" />,
-  document.getElementById('ux-permissions')
-);
 
 // import data for building static version
 var PERMISSIONS_JSON = {
@@ -344,3 +331,15 @@ var PERMISSIONS_JSON = {
     }
     ]
 };
+
+// ## Render
+// 
+// renders the component and attaches it to the target
+// 
+// > React.renderComponent(component, target)
+React.renderComponent(
+  <Permissions
+    isManageable={true}
+    redirectUrl="/permissions/edit?_action=view&amp;media_resource_id=5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb" />,
+  document.getElementById('ux-permissions')
+);
