@@ -103,15 +103,23 @@
         },
         // custom fn to add new comment
         handleCommentSubmit: function (comment) {
+          
+          // **do with the data locally what u expect the server to do:**  
+          // the new comment is added to the list of existing comments
           var comments = this.state.data;
           var newComments = comments.concat([comment]);
+
+          // **update the state for instant UI change:**
+          // call setState with the data we just constructed
           this.setState({data: newComments});
+          
           $.ajax({
             url: this.props.url,
             dataType: 'json',
             type: 'POST',
             data: comment,
             success: function(data) {
+              // here the state is also set - with the server's answer.
               this.setState({data: data});
             }.bind(this)
           });
@@ -132,7 +140,7 @@
               <h1>Comments</h1>
               <CommentList data={this.state.data}/>
               <CommentForm 
-                // set callback to handle submits as prop!
+                // set as prop: a callback to handle submits!
                 onCommentSubmit={this.handleCommentSubmit}
               />
             </div>
