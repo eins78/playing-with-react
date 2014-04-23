@@ -3,6 +3,33 @@
  */
  
 // # UI Components
+// 
+// - Permissions
+//     - PermissionsOverview
+//         - ResponsibleOwnerOverview
+//         - UserPermissionsOverview
+//             - UserPermissionsOverviewList
+//     - PermissionsSettings
+//         - PermissionsSubjectGroup
+//             - PermissionsSubject
+//                 - PermissionsPresetSelector
+//                 - PermissionCheckBox
+//         - PermissionsSubject [primary subject]
+// 
+// - Permissions
+//     - Overview
+//         - ResponsibleOwner
+//         - UserPermissions
+//             - List
+//     - Settings
+//         - SubjectGroup
+//             - Subject
+//                 - PresetSelector
+//                 - CheckBox
+//         - Subject [primary subject]
+// 
+
+// var ReactComponent = React.createClass;
  
 // ## General
 // TODO
@@ -81,6 +108,8 @@ var UserPermissionsOverviewList = React.createClass({
 });
 
 // ## Permissions: Settings
+// main control panel. 
+// split into subject groups and a primary subject
 
 var PermissionsSettings = React.createClass({
   render: function () {
@@ -311,7 +340,7 @@ var Permissions = React.createClass({
         <form id="ui-rights-management"
               data-manageable={this.props.isManageable}
               data-media-resource-id={this.props.mediaResource}
-              data-redirect-url= {this.props.redirectUrl}
+              data-redirect-url={this.props.redirectUrl}
         >
           <PermissionsOverview permissions={permissions}/>
           <hr className="separator light mvl"/>
