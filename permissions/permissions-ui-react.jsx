@@ -116,17 +116,18 @@ var PermissionsSettings = React.createClass({
     
     // build list of subjectGroups from data
     var config = this.props.config;
-    var data = this.props.permissions;
+    var permissions = this.props.permissions;
+    
     var subjectGroups = [];
     config.subjectGroups.forEach(function (group) {
       subjectGroups.push(
         <PermissionsSubjectGroup
           config={config}
-          group={group}
-          subjects={data.subjectGroups[group.id]}
+          subjects={permissions[group.id]}
           name={group.id}
           title={group.name}
-          icon={group.icon} />
+          icon={group.icon} 
+          adder={group.adder} />
       );
     });
     
@@ -152,20 +153,22 @@ var PermissionsSettings = React.createClass({
 
 var PermissionsSubjectGroup = React.createClass({
   render: function () {
-    
-    
     var config = this.props.config;
+    var subjects = this.props.subjects;
     
     // build list of subjects from data
-    var subjects = [];
-    this.props.subjects.forEach(function (subject) {
-      subjects.push(
-        <PermissionsSubject
-          user={subject.id}
-          name={subject.name || subject.id}
-          config={config} />
-      );
-    });
+    var subjectList = [];
+    if (subjects) {
+      subjects.forEach(function (subject) {
+        subjectList.push(
+          <PermissionsSubject
+            user={subject.id}
+            name={subject.name || subject.id}
+            config={config} />
+        );
+      });
+      
+    };
     
     var tableHeaderRights = [];
     config.rights.forEach(function (right) {
@@ -175,7 +178,7 @@ var PermissionsSubjectGroup = React.createClass({
     });
     
     // TODO: config. >component?
-    var adder = this.props.group ? this.props.group.adder : null;
+    var adder = this.props.adder;
     var subjectAdder = function () {
       if (adder) {
         return (
@@ -192,7 +195,7 @@ var PermissionsSubjectGroup = React.createClass({
             </div>
         );
       }
-    }
+    };
     
     return (
       <div className={"ui-rights-management-"+this.props.name}>
@@ -208,7 +211,7 @@ var PermissionsSubjectGroup = React.createClass({
               </tr>
             </thead>
             <tbody>
-              {subjects}
+              {subjectList}
             </tbody>
           </table>
           {subjectAdder()}
@@ -324,27 +327,18 @@ var PermissionCheckBox = React.createClass({
 });
 
 // ## Meta-Component: Permissions
+          <hr className="separator light mvl"/>
 
 var Permissions = React.createClass({
   render: function () {
-    // some light data mangling: seperate "public", "you" and "subjectGroups"
-    var data = this.props.permissions
-    var permissions = {};
-    permissions.subjectGroups = data;
-    permissions.currentUser = data.you;
-    permissions.public = data.public;
-    delete permissions.subjectGroups.you;
-    delete permissions.subjectGroups.public;
-    
     return (
         <form id="ui-rights-management"
               data-manageable={this.props.isManageable}
               data-media-resource-id={this.props.mediaResource}
               data-redirect-url={this.props.redirectUrl}
         >
-          <PermissionsOverview permissions={permissions}/>
-          <hr className="separator light mvl"/>
-          <PermissionsSettings permissions={permissions} config={this.props.config}/>
+          <PermissionsOverview permissions={this.props.permissions}/>
+          <PermissionsSettings permissions={this.props.permissions} config={this.props.config}/>
         </form>
     );
   }
