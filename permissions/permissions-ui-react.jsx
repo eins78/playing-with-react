@@ -34,6 +34,22 @@
 // ## General
 // TODO
 
+var madekLayoutSeparator = React.createClass({
+  render: function () {
+    var classes = ['separator'];
+    var props = this.props;
+    ['mod', 'spacing'].forEach(function (c) {
+      if (props[c]) {
+        classes.push(props[c]);
+      }
+    });
+    
+    return (
+      <hr className={classes.join(' ')} />
+    )
+  }
+});
+
 // ## Permissions: Overview
 // collection of specific overviews
 var PermissionsOverview = React.createClass({
@@ -327,7 +343,6 @@ var PermissionCheckBox = React.createClass({
 });
 
 // ## Meta-Component: Permissions
-          <hr className="separator light mvl"/>
 
 var Permissions = React.createClass({
   render: function () {
@@ -338,6 +353,7 @@ var Permissions = React.createClass({
               data-redirect-url={this.props.redirectUrl}
         >
           <PermissionsOverview permissions={this.props.permissions}/>
+          <madekLayoutSeparator mod="light" spacing="mvl" />
           <PermissionsSettings permissions={this.props.permissions} config={this.props.config}/>
         </form>
     );
