@@ -204,8 +204,7 @@ var PermissionsSubjectGroup = React.createClass({
                        className="small block ui-autocomplete-input"
                        name="user" 
                        placeholder={adder.hint}
-                       type="text"
-                />
+                       type="text" />
                 <span className="ui-helper-hidden-accessible" aria-live="polite" role="status"></span>
               </div>
             </div>
@@ -259,8 +258,8 @@ var PermissionsSubject = React.createClass({
         data-is-current-user-group=""
         data-is-current-user="false"
         data-name={user.name}
-        data-type="userpermission"
-       >
+        data-type="userpermission" >
+        
         <td className="ui-rights-user">
           <a className="button small ui-rights-remove"
             title="Berechtigung entfernen">
@@ -287,8 +286,7 @@ var PermissionsPresetSelector = React.createClass({
       <td className="ui-rights-role">
         <div className="small">
           <select className="ui-rights-role-select"
-        defaultSelected="viewAndExport"
-          >
+                  defaultSelected="viewAndExport" >
             <option name="responsible" value="Bevollmächtigte/r">
               Bevollmächtigte/r
             </option>
@@ -334,8 +332,7 @@ var PermissionCheckBox = React.createClass({
             name={name}
             title={title}
             value="true"
-            type="checkbox"
-          />
+            type="checkbox" />
         </label>
       </td>
     );
@@ -348,10 +345,8 @@ var Permissions = React.createClass({
   render: function () {
     return (
         <form id="ui-rights-management"
-              data-manageable={this.props.isManageable}
-              data-media-resource-id={this.props.mediaResource}
-              data-redirect-url={this.props.redirectUrl}
-        >
+              data-media-resource-id={'mr-'+this.props.mediaResource}
+              data-redirect-url={this.props.redirectUrl} >
           <PermissionsOverview permissions={this.props.permissions}/>
           <madekLayoutSeparator mod="light" spacing="mvl" />
           <PermissionsSettings permissions={this.props.permissions} config={this.props.config}/>
@@ -458,14 +453,14 @@ var PERMISSIONS_JSON = {
 
 // ## Render
 // 
-// renders the component and attaches it to the target
-// 
 // > React.renderComponent(component, target)
+// 
+// renders the component and attaches it to the target
+// here the instance of the component is configured via properties
 React.renderComponent(
   <Permissions
     permissions={PERMISSIONS_JSON}
     config={PERMISSIONS_CONFIG_JSON}
-    isManageable={true}
     redirectUrl="/permissions/edit?_action=view&amp;media_resource_id=5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb" />,
   document.getElementById('ux-permissions')
 );
