@@ -59,7 +59,7 @@ var PermissionsOverview = React.createClass({
     return (
       <div className="row">
         <div className="col1of2">
-          <ResponsibleOwnerOverview/>
+          <ResponsibleOwnerOverview permissions={this.props.permissions} />
         </div>
         <div className="col1of2">
           <UserPermissionsOverview/>
@@ -73,7 +73,7 @@ var PermissionsOverview = React.createClass({
 // shows explanation and who the responsible user is.
 var ResponsibleOwnerOverview = React.createClass({
   render: function () {
-    // TODO: build from data:
+    var responsibleUser = this.props.permissions._responsibleUser
     return (
       <div className="ui-info-box">
         <h2 className="title-l ui-info-box-title">
@@ -84,7 +84,7 @@ var ResponsibleOwnerOverview = React.createClass({
         </p>
         <ul className="inline">
           <li className="person-tag">
-            Admin, Adam
+            {this.props.permissions._responsibleUser.name}
           </li>
         </ul>
       </div>
@@ -490,7 +490,10 @@ var PERMISSIONS_JSON = {
   
     // TODO: where do we get this from IRL?
     "_resources": ["5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb"],
-    
+    "_responsibleUser": {
+      "name": "Admin, Adam",
+      "id": "927ba041-9464-4e74-9823-c02d03fdfa5c"
+    },
     // list of perms straight from the "API"
     "public": {
         "view": ["5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb"],
