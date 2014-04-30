@@ -38,6 +38,8 @@ var madekLayoutSeparator = React.createClass({
   render: function () {
     var classes = ['separator'];
     var props = this.props;
+    // defaults
+    props.spacing = props.spacing || "mvl";
     ['mod', 'spacing'].forEach(function (c) {
       if (props[c]) {
         classes.push(props[c]);
@@ -523,9 +525,17 @@ var PERMISSIONS_JSON = {
 // renders the component and attaches it to the target
 // here the instance of the component is configured via properties
 React.renderComponent(
-  <Permissions
-    permissions={PERMISSIONS_JSON}
-    config={PERMISSIONS_CONFIG_JSON}
-    redirectUrl="/permissions/edit?_action=view&amp;media_resource_id=5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb" />,
+  <div>
+    <pre style={{'font-family': 'monospace'}}>
+      Debug! <br/>
+      User: {PERMISSIONS_JSON.you.id} <br/>
+      Resources: {PERMISSIONS_JSON._resources}
+    </pre>
+    <madekLayoutSeparator />
+    <Permissions
+      permissions={PERMISSIONS_JSON}
+      config={PERMISSIONS_CONFIG_JSON}
+      redirectUrl="/permissions/edit?_action=view&amp;media_resource_id=5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb" />
+  </div>,
   document.getElementById('ux-permissions')
 );
