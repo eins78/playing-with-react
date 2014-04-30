@@ -34,6 +34,33 @@
 // ## General
 // TODO: more madek generic UI components
 
+// ### madekList
+var madekList = React.createClass({
+  // mods: ["inline"]
+  render: function () {
+    // mod/config classes
+    var props = this.props;
+    var classes = [];
+    ['mod'].forEach(function (c) {
+      if (props[c]) {
+        classes.push(props[c]);
+      }
+    });
+    // build list
+    var list = this.props.data.map(function (item) {
+      return (
+        <li>{item}</li>
+      );
+    });
+    // build component
+    return (
+      <ul className={classes.join(' ')}>
+        {list}
+      </ul>
+    );
+  }
+});
+
 var madekLayoutSeparator = React.createClass({
   render: function () {
     var classes = ['separator'];
@@ -121,28 +148,12 @@ var UserPermissionsOverview = React.createClass({
         Sie, {permissions.you.name} haben gegenwärtig als Person oder als Mitglied einer Gruppe folgende Berechtigungen
       </p>
       <p className="ui-info-box-intro"></p>
-      <UserPermissionsOverviewList data={currentUserRights}/>
+      <madekList mod="inline" data={currentUserRights}/>
     </div>
     );
   }
 });
 
-// ### UserPermissionsOverviewList
-// list of user's permission
-var UserPermissionsOverviewList = React.createClass({
-  render: function () {
-    var list = this.props.data.map(function (item) {
-      return (
-        <li>{item}</li>
-      );
-    });
-    return (
-      <ul className="inline">
-        {list}
-      </ul>
-    );
-  }
-});
 
 // ## Permissions: Settings
 // main control panel. 
