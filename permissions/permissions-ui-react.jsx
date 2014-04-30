@@ -569,12 +569,14 @@ var PERMISSIONS_JSON = {
 // here the instance of the component is configured via properties
 React.renderComponent(
   <div>
-    <pre style={{'font-family': 'monospace'}}>
-      Debug! <br/>
-      User: {PERMISSIONS_JSON.you.id} <br/>
-      Resources: {PERMISSIONS_JSON._resources.join(', ')}
-    </pre>
-    <madekLayoutSeparator />
+    {
+    // <pre style={{'font-family': 'monospace'}}>
+    //   Debug! <br/>
+    //   User: {PERMISSIONS_JSON.you.id} <br/>
+    //   Resources: {PERMISSIONS_JSON._resources.join(', ')}
+    // </pre>
+    // <madekLayoutSeparator />
+    }
     <Permissions
       permissions={PERMISSIONS_JSON}
       config={PERMISSIONS_CONFIG_JSON}
