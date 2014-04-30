@@ -62,7 +62,7 @@ var PermissionsOverview = React.createClass({
           <ResponsibleOwnerOverview permissions={this.props.permissions} />
         </div>
         <div className="col1of2">
-          <UserPermissionsOverview/>
+          <UserPermissionsOverview permissions={this.props.permissions} config={this.props.config}/>
         </div>
       </div>
     );
@@ -96,17 +96,32 @@ var ResponsibleOwnerOverview = React.createClass({
 // shows explanation and summary of users's permissions.
 var UserPermissionsOverview = React.createClass({
   render: function () {
-    // TODO: build from data…
+    var config = this.props.config;
+    var permissions = this.props.permissions
+    
+    var currentUserRights = [];
+    config.rights.forEach(function (right) {
+      var userHasRight = null;
+      permissions._resources.map(function (resource) {
+        if (userHasRight !== false) {
+          userHasRight = permissions.you[right.id].indexOf(resource) !== -1;
+        }
+      });
+      if (userHasRight) {
+        currentUserRights.push(right.name)
+      }
+    });
+    
     return (
       <div className="ui-info-box">
       <h2 className="title-l ui-info-box-title">
         Ihre Berechtigungen
       </h2>
       <p className="ui-info-box-intro">
-        Sie, Admin, Adam, haben gegenwärtig als Person oder als Mitglied einer Gruppe folgende Berechtigungen
+        Sie, {permissions.you.name} haben gegenwärtig als Person oder als Mitglied einer Gruppe folgende Berechtigungen
       </p>
       <p className="ui-info-box-intro"></p>
-      <UserPermissionsOverviewList/>
+      <UserPermissionsOverviewList data={currentUserRights}/>
     </div>
     );
   }
@@ -116,13 +131,14 @@ var UserPermissionsOverview = React.createClass({
 // list of user's permission
 var UserPermissionsOverviewList = React.createClass({
   render: function () {
-    // TODO: build from data…
+    var list = this.props.data.map(function (item) {
+      return (
+        <li>{item}</li>
+      );
+    });
     return (
       <ul className="inline">
-        <li>Betrachten</li>
-        <li>Original exportieren</li>
-        <li>Metadaten editieren</li>
-        <li>Berechtigungen verwalten</li>
+        {list}
       </ul>
     );
   }
@@ -422,7 +438,7 @@ var Permissions = React.createClass({
     return (
         <form id="ui-rights-management"
               data-redirect-url={this.props.redirectUrl} >
-          <PermissionsOverview permissions={this.props.permissions}/>
+          <PermissionsOverview permissions={this.props.permissions} config={this.props.config}/>
           <madekLayoutSeparator mod="light" spacing="mvl" />
           <PermissionsSettings permissions={this.props.permissions} config={this.props.config}/>
         </form>
