@@ -200,30 +200,29 @@ var PermissionsSubjectGroup = React.createClass({
       });
       return groupRight;
     });
+    
     // build the table headers…
-    var tableHeaderRights = [];
-    groupRights.forEach(function (right) {
-      // make the header grey if right now allowed for group. TODO: stylesheet
+    var tableHeaders = groupRights.map(function (right) {
+      // make the header grey if right now allowed for group. 
+      // TODO: stylesheet or hide completely
       var style = {
         color: (right.allowed? 'inherit' : '#aaa')
       };
-      tableHeaderRights.push(
+      return (
         <td className="ui-rights-check-title" style={style}>{right.name}</td>
       );
     });
     
     // build list of subjects from data
-    var subjectList = [];
     if (subjects) {
-      subjects.forEach(function (subject) {
-        subjectList.push(
+      var subjectList = subjects.map(function (subject) {
+        return (
           <PermissionsSubject
             subject={subject}
             rights={groupRights}
             config={config} />
         );
       });
-      
     };
     
     // TODO: config. >component?
@@ -255,7 +254,7 @@ var PermissionsSubjectGroup = React.createClass({
                   {this.props.group.name} <i className={this.props.group.iconClass}></i>
                 </td>
                 <td className="ui-rights-role-title">Berechtigung</td>
-                {tableHeaderRights}
+                {tableHeaders}
               </tr>
             </thead>
             <tbody>
