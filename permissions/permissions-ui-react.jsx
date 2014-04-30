@@ -142,11 +142,9 @@ var PermissionsSettings = React.createClass({
       subjectGroups.push(
         <PermissionsSubjectGroup
           config={config}
-          subjects={permissions[group.id]}
-          name={group.id}
-          title={group.name}
-          icon={group.icon} 
-          adder={group.adder} />
+          resources={permissions._resources}
+          group={group}
+          subjects={permissions[group.id]} />
       );
     });
     
@@ -161,10 +159,9 @@ var PermissionsSettings = React.createClass({
       <PermissionsSubjectGroup
         config={config}
         ref="primarySubject"
-        subjects={[primaryPermissions]}
-        name={config.primarySubject.id}
-        title={config.primarySubject.name}
-        icon={config.primarySubject.icon} />
+        resources={permissions._resources}
+        group={config.primarySubject}
+        subjects={[primaryPermissions]} />
     );
     
     return (
@@ -184,7 +181,36 @@ var PermissionsSettings = React.createClass({
 var PermissionsSubjectGroup = React.createClass({
   render: function () {
     var config = this.props.config;
+    var group = this.props.group;
     var subjects = this.props.subjects;
+    
+    // build list of rights for this group
+    var groupRights = config.rights.map(function(right){
+      // TODO: _.extend with all props…
+      var groupRight = {
+        'id': right.id,
+        'name': right.name
+      };
+      // is this right in the list of allowed rights for this group?
+      group.allowed.forEach(function (allowed) {
+        console.log(right, allowed);
+        if (right.id === allowed) {
+          groupRight.allowed = true;
+        }
+      });
+      return groupRight;
+    });
+    // build the table headers…
+    var tableHeaderRights = [];
+    groupRights.forEach(function (right) {
+      // make the header grey if right now allowed for group. TODO: stylesheet
+      var style = {
+        color: (right.allowed? 'inherit' : '#aaa')
+      };
+      tableHeaderRights.push(
+        <td className="ui-rights-check-title" style={style}>{right.name}</td>
+      );
+    });
     
     // build list of subjects from data
     var subjectList = [];
@@ -193,21 +219,15 @@ var PermissionsSubjectGroup = React.createClass({
         subjectList.push(
           <PermissionsSubject
             subject={subject}
+            rights={groupRights}
             config={config} />
         );
       });
       
     };
     
-    var tableHeaderRights = [];
-    config.rights.forEach(function (right) {
-      tableHeaderRights.push(
-        <td className="ui-rights-check-title">{right.name}</td>
-      );
-    });
-    
     // TODO: config. >component?
-    var adder = this.props.adder;
+    var adder = this.props.group.adder;
     var subjectAdder = function () {
       if (adder) {
         return (
@@ -226,13 +246,13 @@ var PermissionsSubjectGroup = React.createClass({
     };
     
     return (
-      <div className={"ui-rights-management-"+this.props.name}>
+      <div className={"ui-rights-management-"+this.props.group.id}>
         <div className="ui-rights-body">
           <table className="ui-rights-group">
             <thead>
               <tr>
                 <td className="ui-rights-user-title">
-                  {this.props.title} <i className={this.props.icon}></i>
+                  {this.props.group.name} <i className={this.props.group.iconClass}></i>
                 </td>
                 <td className="ui-rights-role-title">Berechtigung</td>
                 {tableHeaderRights}
@@ -252,6 +272,7 @@ var PermissionsSubjectGroup = React.createClass({
 var PermissionsSubject = React.createClass({
   render: function () {
     var config = this.props.config;
+    var rights = this.props.rights;
     var subject = this.props.subject;
     // use 'id' if there is no 'name'
     subject.name = subject.name || subject.id;
