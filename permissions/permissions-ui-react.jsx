@@ -192,8 +192,8 @@ var PermissionsSubjectGroup = React.createClass({
         'name': right.name
       };
       // is this right in the list of allowed rights for this group?
+      // TODO: use _
       group.allowed.forEach(function (allowed) {
-        console.log(right, allowed);
         if (right.id === allowed) {
           groupRight.allowed = true;
         }
@@ -379,7 +379,6 @@ var Permissions = React.createClass({
   render: function () {
     return (
         <form id="ui-rights-management"
-              data-media-resource-id={'mr-'+this.props.mediaResource}
               data-redirect-url={this.props.redirectUrl} >
           <PermissionsOverview permissions={this.props.permissions}/>
           <madekLayoutSeparator mod="light" spacing="mvl" />
