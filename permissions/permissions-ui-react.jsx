@@ -32,7 +32,7 @@
 // var ReactComponent = React.createClass;
  
 // ## General
-// TODO
+// TODO: more madek generic UI components
 
 var madekLayoutSeparator = React.createClass({
   render: function () {
@@ -71,6 +71,7 @@ var PermissionsOverview = React.createClass({
 // shows explanation and who the responsible user is.
 var ResponsibleOwnerOverview = React.createClass({
   render: function () {
+    // TODO: build from data:
     return (
       <div className="ui-info-box">
         <h2 className="title-l ui-info-box-title">
@@ -93,6 +94,7 @@ var ResponsibleOwnerOverview = React.createClass({
 // shows explanation and summary of users's permissions.
 var UserPermissionsOverview = React.createClass({
   render: function () {
+    // TODO: build from data…
     return (
       <div className="ui-info-box">
       <h2 className="title-l ui-info-box-title">
@@ -112,6 +114,7 @@ var UserPermissionsOverview = React.createClass({
 // list of user's permission
 var UserPermissionsOverviewList = React.createClass({
   render: function () {
+    // TODO: build from data…
     return (
       <ul className="inline">
         <li>Betrachten</li>
@@ -262,7 +265,8 @@ var PermissionsSubject = React.createClass({
           title={right} />
       );
     });
-
+    
+    // build the complete row
     return (
       <tr data-id="08ba1f4f-0522-4a77-b087-4f3d1dd94532"
         data-is-current-user-group=""
@@ -341,7 +345,7 @@ var PermissionCheckBox = React.createClass({
             onChange={this.props.CheckBoxHandler} // TODO
             name={name}
             title={title}
-            value="true"
+            value="true" // TODO: look up react form API again
             type="checkbox" />
         </label>
       </td>
