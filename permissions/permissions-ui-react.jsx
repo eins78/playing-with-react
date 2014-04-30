@@ -181,6 +181,7 @@ var PermissionsSettings = React.createClass({
 var PermissionsSubjectGroup = React.createClass({
   render: function () {
     var config = this.props.config;
+    var resources = this.props.resources;
     var group = this.props.group;
     var subjects = this.props.subjects;
     
@@ -220,6 +221,7 @@ var PermissionsSubjectGroup = React.createClass({
           <PermissionsSubject
             subject={subject}
             rights={groupRights}
+            resources={resources}
             config={config} />
         );
       });
@@ -271,16 +273,44 @@ var PermissionsSubjectGroup = React.createClass({
 var PermissionsSubject = React.createClass({
   render: function () {
     var config = this.props.config;
+    var resources = this.props.resources;
     var rights = this.props.rights;
     var subject = this.props.subject;
     // use 'id' if there is no 'name'
     subject.name = subject.name || subject.id;
     
-    var rightsRow = [];
-    this.props.config.rights.forEach(function (right) {
-      rightsRow.push(
+    // build table cells with checkboxes for each right
+    var rightsRow = rights.map(function (right) {
+      
+      // check if the subject has that right!   // TODO: check true/false/mixed???
+      var subjectHasPermission = null;
+      
+      // if it is allowed at all, …
+      if (right.allowed) {
+        
+        // and if the user has a list of resources for that right…
+        if (subject[right.id] && subject[right.id].length) {
+          
+          // check for each resource, …    // TODO: use _
+          resources.forEach(function (resource) {
+            // only if state is NOT already false! (if any is false, all is false…)
+            if (subjectHasPermission !== false) {
+              // does subject has that right for that resource?
+              if (subject[right.id].indexOf(resource) !== -1) {
+                subjectHasPermission = true;
+              } else {
+                subjectHasPermission = false;
+              }
+            }
+          });
+        }
+        
+      }
+      
+      // add cell to row
+      return (
         <PermissionCheckBox
-          userSelection={true} // TODO: set from data
+          userSelection={subjectHasPermission}
           name={right}
           title={right} />
       );
@@ -288,9 +318,9 @@ var PermissionsSubject = React.createClass({
     
     // build the complete row
     return (
-      <tr data-id="08ba1f4f-0522-4a77-b087-4f3d1dd94532"
-        data-is-current-user-group=""
-        data-is-current-user="false"
+      <tr data-id={subject.id}
+        data-is-current-user-group="" // TODO: set from data
+        data-is-current-user="false" // TODO: set from data
         data-name={subject.name}
         data-type="userpermission" >
         
@@ -442,6 +472,11 @@ var PERMISSIONS_CONFIG_JSON = {
 
 // import data for building static version
 var PERMISSIONS_JSON = {
+  
+    // TODO: where do we get this from IRL?
+    "_resources": ["5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb"],
+    
+    // list of perms straight from the "API"
     "public": {
         "view": ["5b8a97e9-84a2-46a9-b0f3-7c59af3fc4cb"],
         "edit": [],
