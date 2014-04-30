@@ -561,7 +561,7 @@ React.renderComponent(
     <pre style={{'font-family': 'monospace'}}>
       Debug! <br/>
       User: {PERMISSIONS_JSON.you.id} <br/>
-      Resources: {PERMISSIONS_JSON._resources}
+      Resources: {PERMISSIONS_JSON._resources.join(', ')}
     </pre>
     <madekLayoutSeparator />
     <Permissions
