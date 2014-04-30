@@ -383,19 +383,32 @@ var PermissionsPresetSelector = React.createClass({
 
 var PermissionCheckBox = React.createClass({
   render: function () {
+    
+    // build checkbox input
+    var checkboxInput = (
+      <input 
+        name={this.props.name}
+        title={this.props.title}
+        
+        // read-only for now
+        checked={this.props.userSelection}
+        readOnly={true}
+        // onChange={this.props.CheckBoxHandler} // TODO
+        // defaultChecked={!!this.props.userSelection}
+        
+        // value="true" // TODO: look up react form API again
+        type="checkbox" />
+    );
+    
+    
+    // build complete component
     return (
       <td className="ui-rights-check view">
         <i className="ui-right-overwritten-by-public" title="Betrachten (überschrieben durch die Öffentlichen Berechtigungen)">
            <i className="icon-privacy-open"></i>
         </i>
         <label className="ui-rights-check-label">
-          <input 
-            defaultChecked={!!this.props.userSelection}
-            // onChange={this.props.CheckBoxHandler} // TODO
-            name={this.props.name}
-            title={this.props.title}
-            value="true" // TODO: look up react form API again
-            type="checkbox" />
+          {checkboxInput}
         </label>
       </td>
     );
