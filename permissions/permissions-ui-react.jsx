@@ -130,10 +130,10 @@ var UserPermissionsOverviewList = React.createClass({
 var PermissionsSettings = React.createClass({
   render: function () {
     
-    // build list of subjectGroups from data
     var config = this.props.config;
     var permissions = this.props.permissions;
     
+    // build list of configured subjectGroups from data
     var subjectGroups = [];
     config.subjectGroups.forEach(function (group) {
       subjectGroups.push(
@@ -147,6 +147,23 @@ var PermissionsSettings = React.createClass({
       );
     });
     
+    // make a special entry for primary permissions
+    // get permissions by configured 'id'
+    var primaryPermissions = permissions[config.primarySubject.id];
+    // combine it with the configured 'entry' // TODO: _.extend all props
+    primaryPermissions.id = config.primarySubject.entry.id
+
+    // build the primary subject
+    var primarySubject = (
+      <PermissionsSubjectGroup
+        config={config}
+        ref="primarySubject"
+        subjects={[primaryPermissions]}
+        name={config.primarySubject.id}
+        title={config.primarySubject.name}
+        icon={config.primarySubject.icon} />
+    );
+    
     return (
       <div>
         <h3 className="title-l mbs">
@@ -154,13 +171,7 @@ var PermissionsSettings = React.createClass({
         </h3>
         <div className="ui-rights-management">
           {subjectGroups}
-          <PermissionsSubjectGroup
-            config={config}
-            ref="primarySubject"
-            subjects={[config.primarySubject.entry]}
-            name={config.primarySubject.id}
-            title={config.primarySubject.name}
-            icon={config.primarySubject.icon} />
+          {primarySubject}
         </div>
       </div>
     );
@@ -178,8 +189,7 @@ var PermissionsSubjectGroup = React.createClass({
       subjects.forEach(function (subject) {
         subjectList.push(
           <PermissionsSubject
-            user={subject.id}
-            name={subject.name || subject.id}
+            subject={subject}
             config={config} />
         );
       });
@@ -238,10 +248,10 @@ var PermissionsSubjectGroup = React.createClass({
 
 var PermissionsSubject = React.createClass({
   render: function () {
-    var user = {
-      id: this.props.user,
-      name: this.props.name
-    };
+    var config = this.props.config;
+    var subject = this.props.subject;
+    // use 'id' if there is no 'name'
+    subject.name = subject.name || subject.id;
     
     var rightsRow = [];
     this.props.config.rights.forEach(function (right) {
@@ -257,7 +267,7 @@ var PermissionsSubject = React.createClass({
       <tr data-id="08ba1f4f-0522-4a77-b087-4f3d1dd94532"
         data-is-current-user-group=""
         data-is-current-user="false"
-        data-name={user.name}
+        data-name={subject.name}
         data-type="userpermission" >
         
         <td className="ui-rights-user">
@@ -265,9 +275,9 @@ var PermissionsSubject = React.createClass({
             title="Berechtigung entfernen">
             <i className="icon-close small"></i>
           </a>
-          <span className="text" title={user.name}>
+          <span className="text" title={subject.name}>
             <i className="current-user-icon icon-privacy-private"></i>
-              {user.name}
+              {subject.name}
           </span>
         </td>
         
