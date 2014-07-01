@@ -11,6 +11,8 @@
   "author": "Max F. Albrecht",
   "license": "MIT",
   "dependencies": {
+    "envify": "^1.2.1",
+    "react": "^0.10.0"
   },
   "devDependencies": {
     "reactify": "^0.13.1",
