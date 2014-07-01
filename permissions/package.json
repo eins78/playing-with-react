@@ -1,0 +1,20 @@
+{
+  "name": "madek-permissions",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify -t reactify permissions-ui-react.jsx -o permissions-ui-react.js",
+    "watch": "watchify -t reactify permissions-ui-react.jsx -o permissions-ui-react.js --debug --verbose"
+  },
+  "author": "Max F. Albrecht",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "reactify": "^0.13.1",
+    "watchify": "^0.10.2",
+    "browserify": "^4.2.0"
+  }
+}

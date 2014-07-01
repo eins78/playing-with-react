@@ -1,1 +1,5 @@
 /bower_components/
+
+/permissions/node_modules/
+
+/permissions/permissions-ui-react.js
