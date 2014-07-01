@@ -28,15 +28,15 @@
 //                 - CheckBox
 //         - Subject [primary subject]
 // 
-
-// var ReactComponent = React.createClass;
  
 // ## General
 // TODO: more madek generic UI components
 
 // ### madekList
 var madekList = React.createClass({
-  // mods: ["inline"]
+  // A list view.
+  // Mods: ["inline"]
+  
   render: function () {
     // mod/config classes
     var props = this.props;
@@ -49,7 +49,7 @@ var madekList = React.createClass({
     // build list
     var list = this.props.data.map(function (item) {
       return (
-        <li>{item}</li>
+        <li key={'item-'+item}>{item}</li>
       );
     });
     // build component
@@ -100,7 +100,7 @@ var PermissionsOverview = React.createClass({
 // shows explanation and who the responsible user is.
 var ResponsibleOwnerOverview = React.createClass({
   render: function () {
-    var responsibleUser = this.props.permissions._responsibleUser
+    var responsibleUser = this.props.permissions._responsibleUser;
     return (
       <div className="ui-info-box">
         <h2 className="title-l ui-info-box-title">
@@ -170,6 +170,7 @@ var PermissionsSettings = React.createClass({
     config.subjectGroups.forEach(function (group) {
       subjectGroups.push(
         <PermissionsSubjectGroup
+          key={'sgroup-'+group.id}
           config={config}
           resources={permissions._resources}
           group={group}
@@ -233,13 +234,17 @@ var PermissionsSubjectGroup = React.createClass({
     
     // build the table headers…
     var tableHeaders = groupRights.map(function (right) {
-      // make the header grey if right now allowed for group. 
+      // make the header grey if right not allowed for group. 
       // TODO: stylesheet or hide completely
       var style = {
         color: (right.allowed? 'inherit' : '#aaa')
       };
       return (
-        <td className="ui-rights-check-title" style={style}>{right.name}</td>
+        <td className="ui-rights-check-title" 
+          style={style}
+          key={'header-'+right.id}>
+            {right.name}
+        </td>
       );
     });
     
@@ -248,6 +253,7 @@ var PermissionsSubjectGroup = React.createClass({
       var subjectList = subjects.map(function (subject) {
         return (
           <PermissionsSubject
+            key={'subj-'+subject.id}
             subject={subject}
             rights={groupRights}
             resources={resources}
@@ -339,6 +345,7 @@ var PermissionsSubject = React.createClass({
       // add cell to row
       return (
         <PermissionCheckBox
+          key={'i-'+subject.id+'-'+right.id}
           userSelection={subjectHasPermission}
           name={right}
           title={right} />
