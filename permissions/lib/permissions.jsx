@@ -271,9 +271,11 @@ var PermissionsSubject = React.createClass({
     subject.name = subject.name || subject.id;
     
     // build table cells with checkboxes for each right
+    // TODO: check true/false/mixed???
+    // TODO: cleanup!
     var rightsRow = rights.map(function (right) {
       
-      // check if the subject has that right!   // TODO: check true/false/mixed???
+      // check if the subject has that right!
       var subjectHasPermission = null;
       
       // if it is allowed at all, …
@@ -295,8 +297,9 @@ var PermissionsSubject = React.createClass({
             }
           });
         }
-        
       }
+      // make sure its a bool
+      subjectHasPermission = !!subjectHasPermission;
       
       // add cell to row
       return (
@@ -382,11 +385,8 @@ var PermissionCheckBox = React.createClass({
         
         // read-only for now
         checked={this.props.userSelection}
-        readOnly={true}
-        // onChange={this.props.CheckBoxHandler} // TODO
-        // defaultChecked={!!this.props.userSelection}
-        
-        // value="true" // TODO: look up react form API again
+        readOnly={true} // just a hint to react
+        // onChange={this.props.CheckBoxHandler} // TODO for interaction
         type="checkbox" />
     );
     
